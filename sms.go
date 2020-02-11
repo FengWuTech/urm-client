@@ -2,11 +2,8 @@ package urmclient
 
 import (
 	"encoding/json"
-	"time"
 
-	"github.com/parkingwang/go-sign"
 	"github.com/parnurzeal/gorequest"
-	uuid "github.com/satori/go.uuid"
 )
 
 type URMResponse struct {
@@ -27,25 +24,8 @@ type URMResponse struct {
 func SendSMS(appID string, appSecretKey string, mobiles []string, tplCode int, param interface{}) (bool, URMResponse) {
 
 	path := "/urm/sms/send"
-	rawURL := SERVER_ADDRESS + path
-
-	timeUnix := time.Now().Unix()
-
-	signer := sign.NewGoSignerMd5()
-	signer.SetKeyNameAppId("appid")
-	signer.SetKeyNameTimestamp("timestamp")
-	signer.SetKeyNameNonceStr("nonce_str")
-
-	signer.SetAppId(appID)
-	signer.SetTimeStamp(timeUnix)
-
-	nonce := uuid.NewV4().String()
-	signer.SetNonceStr(nonce)
-
-	signer.SetAppSecretWrapBody(appSecretKey)
-
-	query := signer.GetSignedQuery()
-	rawURL = rawURL + "?" + query
+	query := genQuery(appID, appSecretKey)
+	rawURL := SERVER_ADDRESS + path + "?" + query
 
 	params := map[string]interface{}{
 		"mobiles": mobiles,
@@ -58,6 +38,21 @@ func SendSMS(appID string, appSecretKey string, mobiles []string, tplCode int, p
 	var urlResp URMResponse
 	request := gorequest.New()
 	_, _, errs := request.Post(rawURL).Send(paramStr).EndStruct(&urlResp)
+	if errs != nil || len(errs) > 0 {
+		return false, urlResp
+	}
+	return true, urlResp
+}
+
+//获取短信发送量按天统计数据
+func GetSMSStatistics(appID string, appSecretKey string) (bool, URMResponse) {
+	path := "/urm/sms/statistics"
+	query := genQuery(appID, appSecretKey)
+	rawURL := SERVER_ADDRESS + path + "?" + query
+
+	var urlResp URMResponse
+	request := gorequest.New()
+	_, _, errs := request.Get(rawURL).EndStruct(&urlResp)
 	if errs != nil || len(errs) > 0 {
 		return false, urlResp
 	}
