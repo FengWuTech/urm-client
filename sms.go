@@ -22,7 +22,7 @@ type URMResponse struct {
 	appSecretKey: 分配的秘钥
    	mobiles: 手机号列表
    	tplCode: 模板id(内部分配)
-   	params: 参数map
+   	param: 模板变量map
 */
 func SendSMS(appID string, appSecretKey string, mobiles []string, tplCode int, param interface{}) (bool, URMResponse) {
 
