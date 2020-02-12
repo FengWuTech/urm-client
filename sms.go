@@ -22,7 +22,7 @@ type URMSendSmsResponse struct {
    	tplCode: 模板id(内部分配)
    	param: 模板变量map
 */
-func SendSMS(appID string, appSecretKey string, mobiles []string, tplCode int, param interface{}) (bool, URMSendSmsResponse) {
+func SendSMS(appID string, appSecretKey string, mobiles []string, tplCode int, param interface{}, data map[string]interface{}) (bool, URMSendSmsResponse) {
 
 	path := "/urm/sms/send"
 	query := genQuery(appID, appSecretKey, nil)
@@ -32,6 +32,7 @@ func SendSMS(appID string, appSecretKey string, mobiles []string, tplCode int, p
 		"mobiles": mobiles,
 		"tpl_id":  tplCode,
 		"params":  param,
+		"data":    data,
 	}
 	paramJSON, _ := json.Marshal(params)
 	paramStr := string(paramJSON)

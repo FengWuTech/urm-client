@@ -16,7 +16,7 @@ func TestSendSms(t *testing.T) {
 	param := map[string]interface{}{
 		"code": "2345",
 	}
-	isSucceed, result := SendSMS(APP_ID, APP_SECRET_KEY, mobiles, tplCode, param)
+	isSucceed, result := SendSMS(APP_ID, APP_SECRET_KEY, mobiles, tplCode, param, map[string]interface{}{"charge_id": 10})
 	if !isSucceed || result.Code != 200 {
 		t.Errorf("request failed, code[%v]msg[%v]", result.Code, result.Msg)
 	}
