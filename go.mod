@@ -1,4 +1,4 @@
-module urm-client
+module github.com/FengWuTech/urm-client
 
 go 1.13
 
