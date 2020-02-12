@@ -2,6 +2,7 @@ package urmclient
 
 import (
 	"encoding/json"
+	"strconv"
 
 	"github.com/parnurzeal/gorequest"
 )
@@ -75,8 +76,7 @@ type URMAddTplResponse struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data *struct {
-		ID    int    `json:"id"`
-		TplID string `json:"tpl_id"`
+		ID int `json:"id"`
 	} `json:"data"`
 	Time string `json:"time"`
 }
@@ -88,7 +88,10 @@ func AddSmsTpl(appID string, appSecretKey string, typ int, name string, content 
 
 	var ret URMAddTplResponse
 	params := map[string]interface{}{
-		"appid": appID,
+		"appid":   appID,
+		"type":    typ,
+		"name":    name,
+		"content": content,
 	}
 	paramJSON, _ := json.Marshal(params)
 	paramStr := string(paramJSON)
@@ -110,10 +113,10 @@ type URMGetTplResponse struct {
 	Time string `json:"time"`
 }
 
-func GetSmsTpl(appID string, appSecretKey string, tplID string) (bool, *URMGetTplResponse) {
+func GetSmsTpl(appID string, appSecretKey string, tplID int) (bool, *URMGetTplResponse) {
 	path := "/urm/sms/tpl/get"
 	query := genQuery(appID, appSecretKey, map[string]string{
-		"tpl_id": tplID,
+		"tpl_id": strconv.Itoa(tplID),
 	})
 	rawURL := SERVER_ADDRESS + path + "?" + query
 

@@ -41,6 +41,6 @@ func TestAddSmsTpl(t *testing.T) {
 }
 
 func TestGetSmsTpl(t *testing.T) {
-	success, ret := GetSmsTpl(APP_ID, APP_SECRET_KEY, "SMS_183242518")
+	success, ret := GetSmsTpl(APP_ID, APP_SECRET_KEY, 14)
 	fmt.Printf("%v %v", success, ret)
 }
