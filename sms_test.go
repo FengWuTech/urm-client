@@ -1,6 +1,7 @@
 package urmclient
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -32,4 +33,14 @@ func TestGetSmsStatistics(t *testing.T) {
 	if !isSucceed || result.Code != 200 {
 		t.Errorf("request failed, code[%v]msg[%v]", result.Code, result.Msg)
 	}
+}
+
+func TestAddSmsTpl(t *testing.T) {
+	success, ret := AddSmsTpl(APP_ID, APP_SECRET_KEY, 1, "client测试", "client测试")
+	fmt.Printf("%v %v", success, ret)
+}
+
+func TestGetSmsTpl(t *testing.T) {
+	success, ret := GetSmsTpl(APP_ID, APP_SECRET_KEY, "SMS_183242518")
+	fmt.Printf("%v %v", success, ret)
 }
