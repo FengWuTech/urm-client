@@ -29,7 +29,7 @@ func TestSendSms(t *testing.T) {
 */
 func TestGetSmsStatistics(t *testing.T) {
 
-	isSucceed, result := GetSMSStatistics(APP_ID, APP_SECRET_KEY)
+	isSucceed, result := GetSMSStatistics(APP_ID, APP_SECRET_KEY, 1)
 	if !isSucceed || result.Code != 200 {
 		t.Errorf("request failed, code[%v]msg[%v]", result.Code, result.Msg)
 	}

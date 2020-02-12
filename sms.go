@@ -59,9 +59,9 @@ type URMStatisticsResponse struct {
 }
 
 //获取短信发送量按天统计数据
-func GetSMSStatistics(appID string, appSecretKey string) (bool, URMStatisticsResponse) {
+func GetSMSStatistics(appID string, appSecretKey string, chargeID int) (bool, URMStatisticsResponse) {
 	path := "/urm/sms/statistics"
-	query := genQuery(appID, appSecretKey, nil)
+	query := genQuery(appID, appSecretKey, map[string]string{"charge_id": strconv.Itoa(chargeID)})
 	rawURL := SERVER_ADDRESS + path + "?" + query
 
 	var urlResp URMStatisticsResponse
