@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-const APP_ID = "fpms"
-const APP_SECRET_KEY = "rcqBYyBHAJ123"
+const APP_ID = "test"
+const APP_SECRET_KEY = "6tNgqxXRbo"
 
 //测试发送短信
 func TestSendSms(t *testing.T) {
