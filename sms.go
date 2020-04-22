@@ -14,6 +14,11 @@ type URMSendSmsResponse struct {
 	Time string      `json:"time"`
 }
 
+type SmsParam struct {
+	Key   string      `json:"key"`
+	Value interface{} `json:"value"`
+}
+
 //发送短信
 /*
 	appID: 分配的渠道号
@@ -22,7 +27,7 @@ type URMSendSmsResponse struct {
    	tplCode: 模板id(内部分配)
    	param: 模板变量map
 */
-func SendSMS(appID string, appSecretKey string, mobiles []string, tplCode int, param interface{}, data map[string]interface{}) (bool, URMSendSmsResponse) {
+func SendSMS(appID string, appSecretKey string, mobiles []string, tplCode int, param []SmsParam, data map[string]interface{}) (bool, URMSendSmsResponse) {
 
 	path := "/urm/sms/send"
 	query := genQuery(appID, appSecretKey, nil)
