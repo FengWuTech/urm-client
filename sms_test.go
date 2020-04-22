@@ -11,8 +11,8 @@ const APP_SECRET_KEY = "6tNgqxXRbo"
 //测试发送短信
 func TestSendSms(t *testing.T) {
 
-	mobiles := []string{"18600320375"}
-	tplCode := 2
+	mobiles := []string{"18511775048"}
+	tplCode := 42
 
 	param := []SmsParam{
 		{
@@ -45,6 +45,6 @@ func TestAddSmsTpl(t *testing.T) {
 }
 
 func TestGetSmsTpl(t *testing.T) {
-	success, ret := GetSmsTpl(APP_ID, APP_SECRET_KEY, 14)
+	success, ret := GetSmsTpl(APP_ID, APP_SECRET_KEY, 16)
 	fmt.Printf("%v %v", success, ret)
 }
