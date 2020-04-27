@@ -27,11 +27,11 @@ type SmsParam struct {
    	tplCode: 模板id(内部分配)
    	param: 模板变量map
 */
-func SendSMS(appID string, appSecretKey string, mobiles []string, tplCode int, param []SmsParam, data map[string]interface{}) (bool, URMSendSmsResponse) {
+func (urm *URM) SendSMS(mobiles []string, tplCode int, param []SmsParam, data map[string]interface{}) (bool, URMSendSmsResponse) {
 
 	path := "/urm/sms/send"
-	query := genQuery(appID, appSecretKey, nil)
-	rawURL := SERVER_ADDRESS + path + "?" + query
+	query := urm.genQuery(nil)
+	rawURL := urm.BaseURL + path + "?" + query
 
 	params := map[string]interface{}{
 		"mobiles": mobiles,
@@ -64,10 +64,10 @@ type URMStatisticsResponse struct {
 }
 
 //获取短信发送量按天统计数据
-func GetSMSStatistics(appID string, appSecretKey string, chargeID int) (bool, URMStatisticsResponse) {
+func (urm *URM) GetSMSStatistics(chargeID int) (bool, URMStatisticsResponse) {
 	path := "/urm/sms/statistics"
-	query := genQuery(appID, appSecretKey, map[string]string{"charge_id": strconv.Itoa(chargeID)})
-	rawURL := SERVER_ADDRESS + path + "?" + query
+	query := urm.genQuery(map[string]string{"charge_id": strconv.Itoa(chargeID)})
+	rawURL := urm.BaseURL + path + "?" + query
 
 	var urlResp URMStatisticsResponse
 	request := gorequest.New()
@@ -87,14 +87,14 @@ type URMAddTplResponse struct {
 	Time string `json:"time"`
 }
 
-func AddSmsTpl(appID string, appSecretKey string, typ int, name string, content string) (bool, *URMAddTplResponse) {
+func (urm *URM) AddSmsTpl(typ int, name string, content string) (bool, *URMAddTplResponse) {
 	path := "/urm/sms/tpl/add"
-	query := genQuery(appID, appSecretKey, nil)
-	rawURL := SERVER_ADDRESS + path + "?" + query
+	query := urm.genQuery(nil)
+	rawURL := urm.BaseURL + path + "?" + query
 
 	var ret URMAddTplResponse
 	params := map[string]interface{}{
-		"appid":   appID,
+		"appid":   urm.AppID,
 		"type":    typ,
 		"name":    name,
 		"content": content,
@@ -119,12 +119,12 @@ type URMGetTplResponse struct {
 	Time string `json:"time"`
 }
 
-func GetSmsTpl(appID string, appSecretKey string, tplID int) (bool, *URMGetTplResponse) {
+func (urm *URM) GetSmsTpl(tplID int) (bool, *URMGetTplResponse) {
 	path := "/urm/sms/tpl/get"
-	query := genQuery(appID, appSecretKey, map[string]string{
+	query := urm.genQuery(map[string]string{
 		"tpl_id": strconv.Itoa(tplID),
 	})
-	rawURL := SERVER_ADDRESS + path + "?" + query
+	rawURL := urm.BaseURL + path + "?" + query
 
 	var ret URMGetTplResponse
 	_, _, errs := gorequest.New().Get(rawURL).EndStruct(&ret)

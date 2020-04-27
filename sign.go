@@ -13,7 +13,7 @@ import (
 	appID: 分配的渠道号
 	appSecretKey: 分配的秘钥
 */
-func genQuery(appID string, appSecretKey string, param map[string]string) string {
+func (urm *URM) genQuery(param map[string]string) string {
 
 	timeUnix := time.Now().Unix()
 
@@ -22,13 +22,13 @@ func genQuery(appID string, appSecretKey string, param map[string]string) string
 	signer.SetKeyNameTimestamp("timestamp")
 	signer.SetKeyNameNonceStr("nonce_str")
 
-	signer.SetAppId(appID)
+	signer.SetAppId(urm.AppID)
 	signer.SetTimeStamp(timeUnix)
 
 	nonce := uuid.NewV4().String()
 	signer.SetNonceStr(nonce)
 
-	signer.SetAppSecretWrapBody(appSecretKey)
+	signer.SetAppSecretWrapBody(urm.AppSecret)
 
 	for k, v := range param {
 		signer.AddBody(k, v)

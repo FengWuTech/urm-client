@@ -26,11 +26,11 @@ type URMJPushResponse struct {
 	appSecretKey: 分配的秘钥
    	req: 推送请求体 https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/
 */
-func SendJPush(appID string, appSecretKey string, req URMJPushReq) (bool, URMJPushResponse) {
+func (urm *URM) SendJPush(req URMJPushReq) (bool, URMJPushResponse) {
 
 	path := "/urm/jpush/send"
-	query := genQuery(appID, appSecretKey, nil)
-	rawURL := SERVER_ADDRESS + path + "?" + query
+	query := urm.genQuery(nil)
+	rawURL := urm.BaseURL + path + "?" + query
 
 	paramJSON, _ := json.Marshal(req)
 	paramStr := string(paramJSON)

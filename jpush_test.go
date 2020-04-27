@@ -77,7 +77,7 @@ func TestSendJPush(t *testing.T) {
 	if err != nil {
 		t.Errorf("Parse json err: %v", err.Error())
 	}
-	isSucceed, result := SendJPush(JPUSH_APP_ID, JPUSH_APP_SECRET_KEY, req)
+	isSucceed, result := NewURM().SendJPush(req)
 	if !isSucceed || result.Code != 200 {
 		t.Errorf("request failed, code[%v]msg[%v]", result.Code, result.Msg)
 	}

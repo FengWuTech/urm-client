@@ -8,6 +8,10 @@ import (
 const APP_ID = "test"
 const APP_SECRET_KEY = "6tNgqxXRbo"
 
+func NewURM() *URM {
+	return New(APP_ID, APP_SECRET_KEY, BASE_URL_DEV)
+}
+
 //测试发送短信
 func TestSendSms(t *testing.T) {
 
@@ -20,7 +24,7 @@ func TestSendSms(t *testing.T) {
 			Value: "2345",
 		},
 	}
-	isSucceed, result := SendSMS(APP_ID, APP_SECRET_KEY, mobiles, tplCode, param, map[string]interface{}{"charge_id": 10})
+	isSucceed, result := NewURM().SendSMS(mobiles, tplCode, param, map[string]interface{}{"charge_id": 10})
 	if !isSucceed || result.Code != 200 {
 		t.Errorf("request failed, code[%v]msg[%v]", result.Code, result.Msg)
 	}
@@ -33,18 +37,18 @@ func TestSendSms(t *testing.T) {
 */
 func TestGetSmsStatistics(t *testing.T) {
 
-	isSucceed, result := GetSMSStatistics(APP_ID, APP_SECRET_KEY, 1)
+	isSucceed, result := NewURM().GetSMSStatistics(1)
 	if !isSucceed || result.Code != 200 {
 		t.Errorf("request failed, code[%v]msg[%v]", result.Code, result.Msg)
 	}
 }
 
 func TestAddSmsTpl(t *testing.T) {
-	success, ret := AddSmsTpl(APP_ID, APP_SECRET_KEY, 1, "client测试", "client测试")
+	success, ret := NewURM().AddSmsTpl(1, "client测试", "client测试")
 	fmt.Printf("%v %v", success, ret)
 }
 
 func TestGetSmsTpl(t *testing.T) {
-	success, ret := GetSmsTpl(APP_ID, APP_SECRET_KEY, 16)
+	success, ret := NewURM().GetSmsTpl(16)
 	fmt.Printf("%v %v", success, ret)
 }
