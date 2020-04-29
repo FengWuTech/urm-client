@@ -102,7 +102,7 @@ func (urm *URM) AddSmsTpl(typ int, name string, content string) (bool, *URMAddTp
 	paramJSON, _ := json.Marshal(params)
 	paramStr := string(paramJSON)
 	_, _, errs := gorequest.New().Post(rawURL).Send(paramStr).EndStruct(&ret)
-	if errs != nil {
+	if errs != nil || ret.Code != 200 || ret.Data.ID <= 0 {
 		return false, nil
 	} else {
 		return true, &ret
