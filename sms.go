@@ -128,7 +128,7 @@ func (urm *URM) GetSmsTpl(tplID int) (bool, *URMGetTplResponse) {
 
 	var ret URMGetTplResponse
 	_, _, errs := gorequest.New().Get(rawURL).EndStruct(&ret)
-	if errs != nil {
+	if errs != nil || ret.Code != 200 {
 		return false, nil
 	} else {
 		return true, &ret
